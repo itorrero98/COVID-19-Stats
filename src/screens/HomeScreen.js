@@ -4,48 +4,36 @@ import { StyleSheet, Text, TouchableOpacity, View, Button } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 
 import FactsContainer from "../components/FactsContainer";
+import { DataConsumer } from "../contexts/DataContext";
 import Colors from "../constants/Colors";
 
 export default function HomeScreen() {
   const [page, setPage] = React.useState(0);
-  const [covidData, setData] = React.useState([]);
-  const [loading, setLoading] = React.useState(true);
-  React.useEffect(() => {
-    fetch("https://covid-193.p.rapidapi.com/statistics?country=all", {
-      method: "GET",
-      headers: {
-        "x-rapidapi-host": "covid-193.p.rapidapi.com",
-        "x-rapidapi-key": "bb2ffe9afcmsh550d83e1f016281p1ce881jsn7b890fb4f1b4"
-      }
-    })
-      .then(response => response.json())
-      .then(responseJSON => {
-        setData(responseJSON.response);
-        setLoading(false);
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  }, [page]);
 
   const refresh = () => {
     setPage(page + 1);
   };
   return (
-    <View style={styles.container}>
-      <ScrollView
-        style={styles.container}
-        contentContainerStyle={styles.contentContainer}
-      >
-        {!loading && <FactsContainer data={covidData} />}
-        <View style={styles.helpContainer}>
-          <TouchableOpacity onPress={handleHelpPress} style={styles.helpLink}>
-            <Text style={styles.helpLinkText}>Learn more about COVID-19</Text>
-          </TouchableOpacity>
-        </View>
-      </ScrollView>
-      <Button onPress={refresh} title="Get Data" />
-    </View>
+    <DataConsumer>
+      {context => {
+        return (
+          <View style={styles.container}>
+            <ScrollView
+              style={styles.container}
+              contentContainerStyle={styles.contentContainer}
+            >
+              <FactsContainer data={context[189]} title="The World" />
+              <FactsContainer data={context[216]} title="North America" />
+              <FactsContainer data={context[217]} title="Europe" />
+              <FactsContainer data={context[218]} title="Asia" />
+              <FactsContainer data={context[219]} title="South America" />
+              <FactsContainer data={context[220]} title="Oceania" />
+              <FactsContainer data={context[221]} title="Africa" />
+            </ScrollView>
+          </View>
+        );
+      }}
+    </DataConsumer>
   );
 }
 
@@ -63,7 +51,7 @@ const styles = StyleSheet.create({
     backgroundColor: "blue"
   },
   contentContainer: {
-    paddingTop: 30
+    paddingTop: 15
   },
 
   helpContainer: {
