@@ -13,7 +13,8 @@ export default function BigStatistic({ number, style, title }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center"
+    alignItems: "center",
+    marginVertical: 8
   },
   title: {
     color: "white",

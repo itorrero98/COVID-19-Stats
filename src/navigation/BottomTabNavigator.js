@@ -3,7 +3,8 @@ import * as React from "react";
 
 import TabBarIcon from "../components/TabBarIcon";
 import HomeScreen from "../screens/HomeScreen";
-import LinksScreen from "../screens/LinksScreen";
+import CountriesScreen from "../screens/CountriesScreen";
+import InfoScreen from "../screens/InfoScreen";
 import Colors from "../constants/Colors";
 
 const BottomTab = createBottomTabNavigator();
@@ -45,11 +46,24 @@ export default function BottomTabNavigator({ navigation, route }) {
       />
       <BottomTab.Screen
         name="Current Statistics"
-        component={LinksScreen}
+        component={CountriesScreen}
         options={{
           title: "Find a Country",
           tabBarIcon: ({ focused }) => (
             <TabBarIcon focused={focused} name="md-search" />
+          )
+        }}
+      />
+      <BottomTab.Screen
+        name="Info"
+        component={InfoScreen}
+        options={{
+          title: "Get Info",
+          tabBarIcon: ({ focused }) => (
+            <TabBarIcon
+              focused={focused}
+              name="md-information-circle-outline"
+            />
           )
         }}
       />
@@ -66,5 +80,7 @@ function getHeaderTitle(route) {
       return "COVID-19 At a Glance";
     case "Current Statistics":
       return "Find a Country";
+    case "Info":
+      return "COVID-19 Information";
   }
 }
